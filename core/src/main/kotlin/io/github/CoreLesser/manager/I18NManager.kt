@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.I18NBundle
 import io.github.CoreLesser.enumclass.Language
-import io.github.CoreLesser.ui.GameSkin
 import java.util.*
 
+// 国际化管理器
 object I18NManager : Disposable {
     //启用i18n
     private var currentBundle : I18NBundle
@@ -22,6 +22,7 @@ object I18NManager : Disposable {
             Gdx.files.internal("i18n/language"),
             Locale.SIMPLIFIED_CHINESE
         )
+        FontManager.loadAllFontToSkin()
     }
 
     // 设置当前语言（通过code设置）
@@ -53,7 +54,7 @@ object I18NManager : Disposable {
                 Gdx.files.internal("i18n/language"),
                 locale
             )
-            GameSkin.load(language)
+            FontManager.reloadSkin()
         }
     }
 
@@ -68,7 +69,7 @@ object I18NManager : Disposable {
         return try {
             currentBundle.get(key)
         } catch (e : Exception) {
-            Gdx.app.error("I18N管理器","I18N管理器找不到对应的本地化标记。")
+            Gdx.app.error("I18N管理器","找不到对应的本地化标记：$key")
             "!$key!"
         }
     }

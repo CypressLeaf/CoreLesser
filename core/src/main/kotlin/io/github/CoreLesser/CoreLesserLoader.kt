@@ -2,9 +2,9 @@ package io.github.CoreLesser
 
 import com.badlogic.gdx.Gdx
 import com.kotcrab.vis.ui.VisUI
+import io.github.CoreLesser.manager.FontManager
 import io.github.CoreLesser.manager.I18NManager
 import io.github.CoreLesser.screen.MainMenuScreen
-import io.github.CoreLesser.ui.GameSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.async.KtxAsync
@@ -20,13 +20,11 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
 
         addScreen(MainMenuScreen(this))
         setScreen<MainMenuScreen>()
-
-        GameSkin.load(I18NManager.getLanguage())
     }
 
     override fun <Type : KtxScreen> addScreen(type: Class<Type>, screen: Type) {
         if (screenList.any { it::class == screen::class }) {
-            Gdx.app.log("CoreLesser","屏幕管理器：屏幕已添加。")
+            Gdx.app.log("屏幕管理器","屏幕已添加。")
         } else {
             super.addScreen(type, screen)
         }
@@ -34,7 +32,7 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
 
     override fun dispose() {
         I18NManager.dispose()
-        GameSkin.dispose()
+        FontManager.dispose()
         super.dispose()
     }
 }

@@ -11,9 +11,10 @@ import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
 import io.github.CoreLesser.manager.FontManager
 import io.github.CoreLesser.manager.I18NManager
-import io.github.CoreLesser.ui.GameSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.collections.GdxArray
+import ktx.freetype.freeTypeFontParameters
 
 class MainMenuScreen(
     private val game: KtxGame<KtxScreen>
@@ -24,19 +25,22 @@ class MainMenuScreen(
     private val rootTable : VisTable = VisTable()
     /***
      * 战役按钮
-     * 多人战役按钮
+     * 多人按钮
      * 教程按钮
      * 设置按钮
      * 退出按钮
      */
-    private val battleGameButton : VisTextButton = VisTextButton("")
-    private val partyGameButton : VisTextButton = VisTextButton("")
-    private val courseButton : VisTextButton = VisTextButton("")
-    private val settingsButton : VisTextButton = VisTextButton("")
-    private val exitButton : VisTextButton = VisTextButton("")
+    private val buttons = listOf(
+        VisTextButton(""),
+        VisTextButton(""),
+        VisTextButton(""),
+        VisTextButton(""),
+        VisTextButton("")
+    )
 
     // 初始化主菜单
     init {
+        buttons.forEach { it.skin = FontManager.getSkin() }
         createMainMenu()
     }
 
@@ -47,18 +51,17 @@ class MainMenuScreen(
             bottom().left()
             defaults().pad(10f)
             padBottom(20f)
-            padLeft(40f)
-            add(battleGameButton).width(400f).height(40f).row()
-            add(partyGameButton).width(400f).height(40f).row()
-            add(courseButton).width(400f).height(40f).row()
-            add(settingsButton).width(400f).height(40f).row()
-            add(exitButton).width(400f).height(40f).row()
+            padLeft(40f)// 添加所有按钮
+            buttons.forEach { button ->
+                add(button).width(400f).height(40f).row()
+            }
         }
-        battleGameButton.apply {
-            skin = GameSkin.skin
-            setText(I18NManager.getString("战役"))
-        }
-        exitButton.apply {
+        buttons[0].setText(I18NManager.getString("战役"))
+        buttons[1].setText(I18NManager.getString("游戏"))
+        buttons[2].setText(I18NManager.getString("教程"))
+        buttons[3].setText(I18NManager.getString("设置"))
+        buttons[4].setText(I18NManager.getString("退出"))
+        buttons[4].apply {
             addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
                     Gdx.app.exit()
