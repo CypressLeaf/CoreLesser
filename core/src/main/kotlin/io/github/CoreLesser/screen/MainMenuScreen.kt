@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
 import io.github.CoreLesser.manager.FontManager
 import io.github.CoreLesser.manager.I18NManager
+import io.github.CoreLesser.screen.settings.SettingsMenuScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.collections.GdxArray
@@ -23,50 +25,65 @@ class MainMenuScreen(
     private val stage : Stage = Stage(ExtendViewport(1280f,720f))
     // 定义一个table容纳UI
     private val rootTable : VisTable = VisTable()
+    // 修改按钮样式
+    private val skin = VisUI.getSkin().apply {
+        get(VisTextButton.VisTextButtonStyle::class.java).font = FontManager.loadAllFont(48)
+    }
     /***
      * 战役按钮
-     * 多人按钮
+     * 联机按钮
      * 教程按钮
+     * 模组按钮
      * 设置按钮
      * 退出按钮
      */
     private val buttons = listOf(
-        VisTextButton(""),
-        VisTextButton(""),
-        VisTextButton(""),
-        VisTextButton(""),
-        VisTextButton("")
-    )
-
-    // 初始化主菜单
-    init {
-        buttons.forEach { it.skin = FontManager.getSkin() }
-        createMainMenu()
-    }
-
-    // 构建主菜单
-    private fun createMainMenu() {
-        rootTable.apply {
-            setFillParent(true)
-            bottom().left()
-            defaults().pad(10f)
-            padBottom(20f)
-            padLeft(40f)// 添加所有按钮
-            buttons.forEach { button ->
-                add(button).width(400f).height(40f).row()
-            }
-        }
-        buttons[0].setText(I18NManager.getString("战役"))
-        buttons[1].setText(I18NManager.getString("游戏"))
-        buttons[2].setText(I18NManager.getString("教程"))
-        buttons[3].setText(I18NManager.getString("设置"))
-        buttons[4].setText(I18NManager.getString("退出"))
-        buttons[4].apply {
+        VisTextButton("战役"),
+        VisTextButton("联机"),
+        VisTextButton("教程"),
+        VisTextButton("模组"),
+        VisTextButton("设置").apply {
+            addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    game.addScreen(SettingsMenuScreen(game))
+                    game.setScreen<SettingsMenuScreen>()
+                }
+            })
+        },
+        VisTextButton("退出").apply {
             addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
                     Gdx.app.exit()
                 }
             })
+        }
+    )
+    // 按钮信息索引
+    private val buttonTextKeys = listOf("战役", "联机", "教程", "模组", "设置", "退出")
+
+    // 初始化主菜单
+    init {
+        buttons.forEach {
+            it.skin = skin
+        }
+        // 构建主菜单
+        createMainMenu()
+    }
+
+    // 构建主菜单
+    private fun createMainMenu() {
+        // 定义根表格内容
+        rootTable.apply {
+            setFillParent(true)
+            left()
+            defaults().pad(20f)
+            padLeft(40f)
+            // 添加所有按钮
+            for (i in buttons.indices) {
+                // 根据索引找到自己的文本并添加按钮
+                buttons[i].setText(I18NManager.getString(buttonTextKeys[i]))
+                rootTable.add(buttons[i]).width(200f).height(60f).row()
+            }
         }
         stage.addActor(rootTable)
     }

@@ -2,6 +2,7 @@ package io.github.CoreLesser
 
 import com.badlogic.gdx.Gdx
 import com.kotcrab.vis.ui.VisUI
+import com.kotcrab.vis.ui.widget.VisTextButton
 import io.github.CoreLesser.manager.FontManager
 import io.github.CoreLesser.manager.I18NManager
 import io.github.CoreLesser.screen.MainMenuScreen
@@ -17,7 +18,6 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
     override fun create() {
         KtxAsync.initiate()
         VisUI.load()
-
         addScreen(MainMenuScreen(this))
         setScreen<MainMenuScreen>()
     }
@@ -26,6 +26,7 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
         if (screenList.any { it::class == screen::class }) {
             Gdx.app.log("屏幕管理器","屏幕已添加。")
         } else {
+            screenList.add(screen)
             super.addScreen(type, screen)
         }
     }

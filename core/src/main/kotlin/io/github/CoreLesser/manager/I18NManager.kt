@@ -22,7 +22,6 @@ object I18NManager : Disposable {
             Gdx.files.internal("i18n/language"),
             Locale.SIMPLIFIED_CHINESE
         )
-        FontManager.loadAllFontToSkin()
     }
 
     // 设置当前语言（通过code设置）
@@ -54,7 +53,6 @@ object I18NManager : Disposable {
                 Gdx.files.internal("i18n/language"),
                 locale
             )
-            FontManager.reloadSkin()
         }
     }
 
