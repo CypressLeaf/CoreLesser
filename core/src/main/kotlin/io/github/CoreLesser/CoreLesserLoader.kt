@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx
 import com.kotcrab.vis.ui.VisUI
 import io.github.CoreLesser.manager.I18NManager
 import io.github.CoreLesser.screen.MainMenuScreen
+import io.github.CoreLesser.ui.GameSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.async.KtxAsync
 import ktx.collections.GdxArray
 
 class CoreLesserLoader : KtxGame<KtxScreen>() {
+    // 定义一个屏幕列表
     private val screenList = GdxArray<KtxScreen>()
 
     override fun create() {
@@ -18,6 +20,8 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
 
         addScreen(MainMenuScreen(this))
         setScreen<MainMenuScreen>()
+
+        GameSkin.load(I18NManager.getLanguage())
     }
 
     override fun <Type : KtxScreen> addScreen(type: Class<Type>, screen: Type) {

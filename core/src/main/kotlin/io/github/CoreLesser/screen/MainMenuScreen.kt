@@ -2,13 +2,16 @@ package io.github.CoreLesser.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.kotcrab.vis.ui.widget.VisLabel
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
+import io.github.CoreLesser.manager.FontManager
+import io.github.CoreLesser.manager.I18NManager
+import io.github.CoreLesser.ui.GameSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
@@ -20,14 +23,12 @@ class MainMenuScreen(
     // 定义一个table容纳UI
     private val rootTable : VisTable = VisTable()
     /***
-     * 游戏标题
      * 战役按钮
      * 多人战役按钮
      * 教程按钮
      * 设置按钮
      * 退出按钮
      */
-    private val gameTitle : VisLabel = VisLabel("")
     private val battleGameButton : VisTextButton = VisTextButton("")
     private val partyGameButton : VisTextButton = VisTextButton("")
     private val courseButton : VisTextButton = VisTextButton("")
@@ -47,12 +48,14 @@ class MainMenuScreen(
             defaults().pad(10f)
             padBottom(20f)
             padLeft(40f)
-            add(gameTitle).width(600f).width(60f).row()
             add(battleGameButton).width(400f).height(40f).row()
             add(partyGameButton).width(400f).height(40f).row()
             add(courseButton).width(400f).height(40f).row()
             add(settingsButton).width(400f).height(40f).row()
             add(exitButton).width(400f).height(40f).row()
+        }
+        battleGameButton.apply {
+            setText(I18NManager.getString("战役"))
         }
         exitButton.apply {
             addListener(object : ClickListener() {

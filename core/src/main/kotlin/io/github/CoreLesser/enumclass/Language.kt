@@ -1,6 +1,6 @@
 package io.github.CoreLesser.enumclass
 
-import java.util.Locale
+import java.util.*
 
 //枚举可选语言
 enum class Language(

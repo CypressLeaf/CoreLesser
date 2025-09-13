@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.I18NBundle
 import io.github.CoreLesser.enumclass.Language
-import java.util.Locale
+import io.github.CoreLesser.ui.GameSkin
+import java.util.*
 
 object I18NManager : Disposable {
     //启用i18n
@@ -52,7 +53,13 @@ object I18NManager : Disposable {
                 Gdx.files.internal("i18n/language"),
                 locale
             )
+            GameSkin.load(language)
         }
+    }
+
+    // 暴露当前语言
+    fun getLanguage() : Language {
+        return currentLanguage
     }
 
     // 获取本地化文本

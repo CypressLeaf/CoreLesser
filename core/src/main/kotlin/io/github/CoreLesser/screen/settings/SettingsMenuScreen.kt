@@ -32,7 +32,7 @@ class SettingsMenuScreen(
             add(languageOptionsButton).width(400f).height(40f).row()
         }
         languageOptionsButton.apply {
-            setText(I18NManager.getString())
+            setText(I18NManager.getString(""))
         }
     }
 }
