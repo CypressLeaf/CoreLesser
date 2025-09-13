@@ -34,6 +34,7 @@ class CoreLesserLoader : KtxGame<KtxScreen>() {
 
     override fun dispose() {
         I18NManager.dispose()
+        GameSkin.dispose()
         super.dispose()
     }
 }

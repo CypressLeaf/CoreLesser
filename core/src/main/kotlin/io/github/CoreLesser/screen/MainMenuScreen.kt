@@ -55,6 +55,7 @@ class MainMenuScreen(
             add(exitButton).width(400f).height(40f).row()
         }
         battleGameButton.apply {
+            skin = GameSkin.skin
             setText(I18NManager.getString("战役"))
         }
         exitButton.apply {
